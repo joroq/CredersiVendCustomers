@@ -178,7 +178,8 @@ public class CustomerTests
         {
             Customers db = new Customers();
             db.Query(78);
-            Assert.Fail();
+            Assert.Fail("Expected exception was not thrown.");
+        
         }
         catch (Exception)
         {
