@@ -10,13 +10,13 @@ public class CustomerTests
     [SetUp]
     public void Setup()
     {
-       
+
     }
 
     [TearDown]
     public void TearDown()
     {
-        Customers db = new Customers(); 
+        Customers db = new Customers();
         db.RemoveAll();
     }
 
@@ -36,8 +36,8 @@ public class CustomerTests
             .SetAddress3("")
             .SetPostCode("UT5 7HG"));
         }
-       Assert.That(db.Count(),Is.EqualTo (100));
-        
+        Assert.That(db.Count(), Is.EqualTo(100));
+
     }
 
     [Test]
@@ -55,14 +55,14 @@ public class CustomerTests
             .SetAddress3("Pocklington")
             .SetPostCode("PO5 2MI"));
         }
-       Assert.That(db.Count(),Is.EqualTo (1));
-        
+        Assert.That(db.Count(), Is.EqualTo(1));
+
     }
 
     [Test]
     public void CVCInvalidAddress()
     {
-         Customers db = new Customers();
+        Customers db = new Customers();
         db.RemoveAll();
         try
         {
@@ -74,15 +74,70 @@ public class CustomerTests
             .SetAddress2("")
             .SetAddress3("")
             .SetPostCode(""));
-            Assert.Fail();
-            
-        }
+            Assert.Fail("Expected exception was not thrown.");
 
-        catch (Exception) {
-       
         }
-
+        catch (Exception)
+        {
+        
+        }
+        Assert.That(db.Count(), Is.EqualTo(1));
     }
+
+    [Test]
+    public void CVCOnlyOptionalData()
+    {
+        Customers db = new Customers();
+        db.RemoveAll();
+        try
+        {
+            int id = db.NextId();
+            db.Add(db.Create(id, "")
+            .SetContact("")
+            .SetMachines(0)
+            .SetAddress1("")
+            .SetAddress2("Isen Industrial Park")
+            .SetAddress3("Pocklington")
+            .SetPostCode(""));
+
+            Assert.Fail("Expected exception was not thrown.");
+
+        }
+
+        catch (Exception)
+        {
+        }
+        Assert.That(db.Count(), Is.EqualTo(1));
+    }
+
+
+  [Test]
+    public void CVCAddCustomerNoData()
+    {
+        Customers db = new Customers();
+        db.RemoveAll();
+        try
+        {
+            int id = db.NextId();
+            db.Add(db.Create(id, "")
+            .SetContact("")
+            .SetMachines(0)
+            .SetAddress1("")
+            .SetAddress2("")
+            .SetAddress3("")
+            .SetPostCode(""));
+
+            Assert.Fail("Expected exception was not thrown.");
+
+        }
+
+        catch (Exception)
+        {
+
+        }
+        Assert.That(db.Count(), Is.EqualTo(1));
+    }
+
 
     [Test]
     public void CVCConsoleQueryValidID()
@@ -96,7 +151,7 @@ public class CustomerTests
         .SetAddress2("Swaffham")
         .SetAddress3("Norfolk")
         .SetPostCode("NF7 2VD"));
-        
+
         string? name = db.Query(1)?.Name;
         string? address1 = db.Query(1)?.Address1;
         string? address2 = db.Query(1)?.Address2;
@@ -105,7 +160,7 @@ public class CustomerTests
         string? contact = db.Query(1)?.Contact;
         int machines = db.Query(1).Machines;
         string? category = db.Query(1)?.Category;
-    
+
         Assert.That(name, Is.EqualTo("Castle Acre Storage"));
         Assert.That(address1, Is.EqualTo("Castle Acre Industrial Park"));
         Assert.That(address2, Is.EqualTo("Swaffham"));
@@ -121,9 +176,9 @@ public class CustomerTests
     {
         try
         {
-        Customers db = new Customers();
-        db.Query(78);
-        Assert.Fail();
+            Customers db = new Customers();
+            db.Query(78);
+            Assert.Fail();
         }
         catch (Exception)
         {
@@ -136,7 +191,7 @@ public class CustomerTests
     {
         Customers db = new Customers();
         db.RemoveAll();
-        Assert.That(db.Count(),Is.EqualTo (0));
+        Assert.That(db.Count(), Is.EqualTo(0));
     }
 }
 
