@@ -79,7 +79,7 @@ public class CustomerTests
         }
         catch (Exception)
         {
-        
+
         }
         Assert.That(db.Count(), Is.EqualTo(1));
     }
@@ -111,7 +111,7 @@ public class CustomerTests
     }
 
 
-  [Test]
+    [Test]
     public void CVCAddCustomerNoData()
     {
         Customers db = new Customers();
@@ -179,7 +179,7 @@ public class CustomerTests
             Customers db = new Customers();
             db.Query(78);
             Assert.Fail("Expected exception was not thrown.");
-        
+
         }
         catch (Exception)
         {
@@ -188,11 +188,63 @@ public class CustomerTests
     }
 
     [Test]
+    public void SmokeTest()
+    {
+        Customers db = new Customers();
+        Action SmokeTestsCommand = () =>
+        {
+            Customers db = new Customers();
+
+            db.Add(db.Create(7, "Galaxy Ltd")
+            .SetContact("Douglas Adams")
+            .SetMachines(4)
+            .SetAddress1("42 Galaxy Street")
+            .SetAddress2("Adamstown")
+            .SetAddress3("Shropshire")
+            .SetPostCode("GX22 42P"));
+
+            db.Add(db.Create(8, "Alpha Ltd")
+               .SetContact("Jane Smith")
+               .SetMachines(40)
+               .SetAddress1("2 Created Wibble")
+               .SetAddress2("Hippo")
+               .SetAddress3("Obvious")
+               .SetPostCode("AL22 42P"));
+
+            db.Add(db.Create(203, "Hello World Limited")
+                .SetContact("Floz Martin")
+                .SetAddress1("32 Hello World")
+                .SetAddress3("Essex")
+                .SetPostCode("HW20 22A"));
+
+            db.Add(db.Create(222, "Big Company Ltd")
+                .SetMachines(400)
+                .SetAddress1("59 Yellow Road")
+                .SetAddress3("Bridgnorth")
+                .SetPostCode("BC10 19C"));
+
+            db.Add(db.Create(2, "Jones Jumpers Ltd")
+                .SetContact("John Jones")
+                .SetMachines(4)
+                .SetAddress1("99 Ninety Nine")
+                .SetAddress2("Jonestown")
+                .SetAddress3("Essex")
+                .SetPostCode("JJ33 33J"));
+
+            db.RemoveAll();
+            Assert.That(db.Count(), Is.EqualTo(0));
+        };
+    }
+
+
+
+    [Test]
     public void ClearDatabase()
     {
         Customers db = new Customers();
         db.RemoveAll();
         Assert.That(db.Count(), Is.EqualTo(0));
     }
-}
+};
+
 
