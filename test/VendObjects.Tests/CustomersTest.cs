@@ -20,6 +20,7 @@ public class CustomerTests
         db.RemoveAll();
     }
 
+//Positive tests
     [Test]
     public void AddManyCustomers()
     {
@@ -59,6 +60,39 @@ public class CustomerTests
 
     }
 
+    [Test]
+    public void CVCConsoleQueryValidID()
+    {
+        Customers db = new Customers();
+        int id = db.NextId();
+        db.Add(db.Create(id, "Castle Acre Storage")
+        .SetContact("Eileen Dover")
+        .SetMachines(100)
+        .SetAddress1("Castle Acre Industrial Park")
+        .SetAddress2("Swaffham")
+        .SetAddress3("Norfolk")
+        .SetPostCode("NF7 2VD"));
+
+        string? name = db.Query(1)?.Name;
+        string? address1 = db.Query(1)?.Address1;
+        string? address2 = db.Query(1)?.Address2;
+        string? address3 = db.Query(1)?.Address3;
+        string? postcode = db.Query(1)?.PostCode;
+        string? contact = db.Query(1)?.Contact;
+        int machines = db.Query(1).Machines;
+        string? category = db.Query(1)?.Category;
+
+        Assert.That(name, Is.EqualTo("Castle Acre Storage"));
+        Assert.That(address1, Is.EqualTo("Castle Acre Industrial Park"));
+        Assert.That(address2, Is.EqualTo("Swaffham"));
+        Assert.That(address3, Is.EqualTo("Norfolk"));
+        Assert.That(postcode, Is.EqualTo("NF7 2VD"));
+        Assert.That(contact, Is.EqualTo("Eileen Dover"));
+        Assert.That(machines, Is.EqualTo(100));
+        Assert.That(category, Is.EqualTo("Gold"));
+    }
+
+//exceptions expected tests
     [Test]
     public void CVCInvalidAddress()
     {
@@ -139,37 +173,7 @@ public class CustomerTests
     }
 
 
-    [Test]
-    public void CVCConsoleQueryValidID()
-    {
-        Customers db = new Customers();
-        int id = db.NextId();
-        db.Add(db.Create(id, "Castle Acre Storage")
-        .SetContact("Eileen Dover")
-        .SetMachines(100)
-        .SetAddress1("Castle Acre Industrial Park")
-        .SetAddress2("Swaffham")
-        .SetAddress3("Norfolk")
-        .SetPostCode("NF7 2VD"));
-
-        string? name = db.Query(1)?.Name;
-        string? address1 = db.Query(1)?.Address1;
-        string? address2 = db.Query(1)?.Address2;
-        string? address3 = db.Query(1)?.Address3;
-        string? postcode = db.Query(1)?.PostCode;
-        string? contact = db.Query(1)?.Contact;
-        int machines = db.Query(1).Machines;
-        string? category = db.Query(1)?.Category;
-
-        Assert.That(name, Is.EqualTo("Castle Acre Storage"));
-        Assert.That(address1, Is.EqualTo("Castle Acre Industrial Park"));
-        Assert.That(address2, Is.EqualTo("Swaffham"));
-        Assert.That(address3, Is.EqualTo("Norfolk"));
-        Assert.That(postcode, Is.EqualTo("NF7 2VD"));
-        Assert.That(contact, Is.EqualTo("Eileen Dover"));
-        Assert.That(machines, Is.EqualTo(100));
-        Assert.That(category, Is.EqualTo("Gold"));
-    }
+    
 
     [Test]
     public void CVCNoIDInDatabase()
